@@ -5,8 +5,11 @@ from urllib.request import Request
 from redis import Redis
 
 
-
 class RateLimit:
+    """
+    This class will check the requests and store the count on Redis
+    The main function allow_request() might return True or False, depending on if the request threshold is exceeded
+    """
     def __init__(self, redis_client, max_request=10, window=60):
         self.redis = redis_client
         self.max_request = max_request
@@ -24,9 +27,8 @@ class RateLimit:
 
         _, _, request_count, _ = pipe.execute()
 
-        print(request_count)
-
         return request_count <= self.max_request
+
 
 app = Flask(__name__)
 
@@ -38,8 +40,14 @@ rate_limit = RateLimit(redis_client)
 def hello_world():
     return {"Hello": "World"}
 
+
 @app.before_request
 async def rate_limit_middleware():
+    """
+    This method acts like a middleware to 'intercept' requests
+    As you can see, the user is forged as 'anonymous'
+    There are different responses for the user (429 or 202)
+    """
     user_id = request.headers.get('X-User-ID', 'anonymous')
 
     if not rate_limit.allow_request(user_id):
