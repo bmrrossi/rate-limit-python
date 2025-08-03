@@ -1,6 +1,6 @@
 # Rate Limit Implementation
 
-A rate limiter is important to building a scalable API. Because it prevents bad users from abusing the API.
+A rate limiter is an important method to building a scalable API. Because it prevents bad users from abusing the API.
 
 A rate limiter keeps a counter on the number of requests received. And reject a request if the threshold exceeds. Requests are rate-limited at the user or IP address level.
 
