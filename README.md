@@ -59,7 +59,7 @@ To build and run this project you can type this command:
 docker-compose up --build -d
 ```
 
-The application will run on http://localhost:5001 (you can change the port in Dockerfile)
+The application will run on http://localhost:5001 (you can change the port in docker-compose.yml)
 
 To check the logs run this command:
 
